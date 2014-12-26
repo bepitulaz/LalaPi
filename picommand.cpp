@@ -65,3 +65,40 @@ int PiCommand::showRemoteFiles(ssh_session session, std::string directory) {
   ssh_channel_free(channel);
   return SSH_OK;
 }
+
+/**
+    Play mp4 file using OMXPlayer.
+
+    @param session is a current authenticated ssh
+    @param filename is a video file to be played
+ */
+int PiCommand::playOMXPlayer(ssh_session session, std::string filename) {
+  ssh_channel channel;
+  int rc;
+  channel = ssh_channel_new(session);
+  if (channel == NULL) return SSH_ERROR;
+  rc = ssh_channel_open_session(channel);
+  if (rc != SSH_OK)
+  {
+    ssh_channel_free(channel);
+    return rc;
+  }
+  
+  // prepare the command
+  const auto command = std::string("omxplayer -o hdmi ");
+  const auto execute = command + filename;
+
+  rc = ssh_channel_request_exec(channel, execute.c_str());
+  if (rc != SSH_OK)
+  {
+    ssh_channel_close(channel);
+    ssh_channel_free(channel);
+    return rc;
+  }
+
+  ssh_channel_send_eof(channel);
+  //ssh_channel_close(channel);
+  //ssh_channel_free(channel);  
+  
+  return SSH_OK;
+}

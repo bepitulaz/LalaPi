@@ -10,7 +10,8 @@ int main(int argc, const char * argv[]) {
       bool connected = session.connect("pi", "raspberry");
       if(connected) {
         auto command = PiCommand();
-        command.showRemoteFiles(session.mSSHSession, "/home/pi/usbdrv");
+        //command.showRemoteFiles(session.mSSHSession, "/home/pi/usbdrv/Doraemon\\ Stand\\ by\\ Me\\ Leaked\\ 720p\\ -\\ ENG\\ -\\ INA\\ SUB/");
+        command.playOMXPlayer(session.mSSHSession, "/home/pi/usbdrv/Doraemon\\ Stand\\ by\\ Me\\ Leaked\\ 720p\\ -\\ ENG\\ -\\ INA\\ SUB/drmn.stnbme.bd720p-PaHe.in.mp4");
       }
     }
 
